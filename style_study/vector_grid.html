@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Grid Background</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .grid-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        .grid-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 200px 200px;
+            animation: gridMove 30s linear infinite reverse;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(40px, 40px);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #cccccc;
+            max-width: 600px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .vector-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vector-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffff;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .vector-dot:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .vector-dot:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.5s; }
+        .vector-dot:nth-child(3) { top: 60%; left: 20%; animation-delay: 1s; }
+        .vector-dot:nth-child(4) { top: 80%; left: 70%; animation-delay: 1.5s; }
+        .vector-dot:nth-child(5) { top: 40%; left: 50%; animation-delay: 2s; }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        .vector-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            animation: lineGlow 3s ease-in-out infinite;
+        }
+
+        .vector-line:nth-child(6) {
+            top: 30%;
+            left: 10%;
+            width: 200px;
+            transform: rotate(45deg);
+        }
+
+        .vector-line:nth-child(7) {
+            top: 70%;
+            right: 10%;
+            width: 150px;
+            transform: rotate(-30deg);
+        }
+
+        @keyframes lineGlow {
+            0%, 100% {
+                opacity: 0.2;
+                box-shadow: 0 0 5px #00ffff;
+            }
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px #00ffff;
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .grid-container {
+                background-size: 20px 20px;
+            }
+            
+            .grid-container::before {
+                background-size: 100px 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container"></div>
+    
+    <div class="vector-elements">
+        <div class="vector-dot"></div>
+        <div class="vector-dot"></div>
+        <div class="vector-dot"></div>
+        <div class="vector-dot"></div>
+        <div class="vector-dot"></div>
+        <div class="vector-line"></div>
+        <div class="vector-line"></div>
+    </div>
+    
+    <div class="content">
+        <h1 class="main-title">Tom Bonner</h1>
+        <p class="subtitle">
+            A design portfolio showcasing some of my history in game and level design.</p>
+        <button class="cta-button" onclick="changeGridColor()">
+            Cycle Grid Colors
+        </button>
+    </div>
+
+    <script>
+        let colorIndex = 0;
+        const colors = [
+            'rgba(0, 255, 255, 0.1)',    // Cyan
+            'rgba(255, 0, 255, 0.1)',    // Magenta
+            'rgba(255, 255, 0, 0.1)',    // Yellow
+            'rgba(0, 255, 0, 0.1)',      // Green
+            'rgba(255, 100, 0, 0.1)'     // Orange
+        ];
+
+        function changeGridColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            const gridContainer = document.querySelector('.grid-container');
+            const color = colors[colorIndex];
+            
+            gridContainer.style.backgroundImage = `
+                linear-gradient(${color} 1px, transparent 1px),
+                linear-gradient(90deg, ${color} 1px, transparent 1px)
+            `;
+            
+            // Update vector elements color too
+            const dots = document.querySelectorAll('.vector-dot');
+            const lines = document.querySelectorAll('.vector-line');
+            const newColor = color.replace('0.1)', '1)').replace('rgba', 'rgb');
+            
+            dots.forEach(dot => {
+                dot.style.background = newColor;
+                dot.style.boxShadow = `0 0 10px ${newColor}`;
+            });
+            
+            lines.forEach(line => {
+                line.style.background = `linear-gradient(90deg, transparent, ${newColor}, transparent)`;
+            });
+        }
+
+        // Add subtle mouse interaction
+        document.addEventListener('mousemove', (e) => {
+            const dots = document.querySelectorAll('.vector-dot');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            dots.forEach((dot, index) => {
+                const delay = index * 100;
+                setTimeout(() => {
+                    const offsetX = (mouseX - 0.5) * 20;
+                    const offsetY = (mouseY - 0.5) * 20;
+                    dot.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                }, delay);
+            });
+        });
+    </script>
+</body>
+</html>

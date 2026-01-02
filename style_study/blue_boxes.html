@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Dancing Squares</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            color: #2c3e50;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .squares-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .square {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #87ceeb;
+            border-radius: 3px;
+            opacity: 0;
+            box-shadow: 0 2px 8px rgba(135, 206, 235, 0.3);
+            animation: squareDance 4s ease-in-out infinite;
+        }
+
+        .square.wave-1 { animation-delay: 0s; }
+        .square.wave-2 { animation-delay: 0.5s; }
+        .square.wave-3 { animation-delay: 1s; }
+        .square.wave-4 { animation-delay: 1.5s; }
+        .square.wave-5 { animation-delay: 2s; }
+
+        @keyframes squareDance {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) rotate(0deg) scale(0.8);
+            }
+            25% {
+                opacity: 0.7;
+                transform: translateY(-10px) rotate(90deg) scale(1.1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(5px) rotate(180deg) scale(1);
+            }
+            75% {
+                opacity: 0.7;
+                transform: translateY(-5px) rotate(270deg) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px) rotate(360deg) scale(0.8);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #4682b4;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #5f8ab8;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .wave-trigger {
+            background: linear-gradient(45deg, #87ceeb, #4682b4);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(70, 130, 180, 0.3);
+        }
+
+        .wave-trigger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(70, 130, 180, 0.4);
+            background: linear-gradient(45deg, #4682b4, #87ceeb);
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .square {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="squares-container" id="squaresContainer"></div>
+    
+    <div class="content">
+        <h1 class="main-title">Dancing Squares</h1>
+        <p class="subtitle">
+            Light, airy design with occasional waves of animated squares 
+            that dance across the background in gentle, synchronized patterns.
+        </p>
+        <button class="wave-trigger" onclick="triggerWave()">
+            Trigger Wave
+        </button>
+    </div>
+
+    <script>
+        const container = document.getElementById('squaresContainer');
+        let waveInterval;
+
+        function createSquareGrid() {
+            const gridSize = 60; // Distance between squares
+            const squares = [];
+            
+            // Create a sparse grid - only some positions will have squares
+            for (let x = gridSize; x < window.innerWidth; x += gridSize * 2) {
+                for (let y = gridSize; y < window.innerHeight; y += gridSize * 2) {
+                    // Randomly skip some positions to keep it sparse
+                    if (Math.random() > 0.3) continue;
+                    
+                    const square = document.createElement('div');
+                    square.className = 'square';
+                    square.style.left = x + 'px';
+                    square.style.top = y + 'px';
+                    
+                    // Assign random wave class for staggered animation
+                    const waveClass = `wave-${Math.floor(Math.random() * 5) + 1}`;
+                    square.classList.add(waveClass);
+                    
+                    container.appendChild(square);
+                    squares.push(square);
+                }
+            }
+            
+            return squares;
+        }
+
+        function triggerWave() {
+            // Clear existing squares
+            container.innerHTML = '';
+            
+            // Create new wave
+            const squares = createSquareGrid();
+            
+            // Remove squares after animation completes
+            setTimeout(() => {
+                squares.forEach(square => {
+                    if (square.parentNode) {
+                        square.parentNode.removeChild(square);
+                    }
+                });
+            }, 6000);
+        }
+
+        function startAutomaticWaves() {
+            // Trigger a wave every 8-12 seconds
+            waveInterval = setInterval(() => {
+                if (Math.random() > 0.3) { // 70% chance to trigger
+                    triggerWave();
+                }
+            }, 8000 + Math.random() * 4000);
+        }
+
+        // Initial wave on load
+        setTimeout(triggerWave, 1000);
+
+        // Start automatic waves
+        startAutomaticWaves();
+
+        // Clean up on window resize
+        window.addEventListener('resize', () => {
+            container.innerHTML = '';
+        });
+
+        // Add subtle mouse interaction
+        document.addEventListener('mousemove', (e) => {
+            // Create occasional single squares near mouse
+            if (Math.random() > 0.98) {
+                const mouseSquare = document.createElement('div');
+                mouseSquare.className = 'square wave-3';
+                mouseSquare.style.left = (e.clientX - 10) + 'px';
+                mouseSquare.style.top = (e.clientY - 10) + 'px';
+                
+                container.appendChild(mouseSquare);
+                
+                setTimeout(() => {
+                    if (mouseSquare.parentNode) {
+                        mouseSquare.parentNode.removeChild(mouseSquare);
+                    }
+                }, 4000);
+            }
+        });
+    </script>
+</body>
+</html>

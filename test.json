@@ -1,0 +1,40 @@
+{
+  "Employees": [
+    [
+      {
+        "id": 1,
+        "name": "Alice Johnson",
+        "age": 30,
+        "position": "Software Engineer"
+      },
+      {
+        "id": 2,
+        "name": "Bob Smith",
+        "age": 45,
+        "position": "Product Manager"
+      }
+    ]
+  ],
+  "Departments": [
+    {
+      "id": 1,
+      "name": "Engineering"
+    },
+    {
+      "id": 2,
+      "name": "Human Resources"
+    }
+  ],
+  "Projects": [
+    {
+      "id": 1,
+      "name": "Project Alpha",
+      "departmentId": 1
+    },
+    {
+      "id": 2,
+      "name": "Project Beta",
+      "departmentId": 1
+    }
+  ]
+}
