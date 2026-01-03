@@ -36,24 +36,24 @@ const projectConfig = {
     // panX: 100  // Manual pan override (0-100)
   },
   1: {
+    name: 'Aristotle',
+    contentId: 'aristotle',
+    overlayColor: 'rgba(255, 255, 0, 1)',  // Neon Yellow
+    image: 'images/aristotle/thumb.png'
+    // panX: 0  // Manual pan override (0-100)
+  },
+  2: {
     name: 'Loadout',
     contentId: 'loadout', 
     overlayColor: 'rgba(255, 0, 255, 1)',  // Magenta
     image: 'images/loadout/thumb.jpg',
     panX: 70  // Manual pan override (0-100)
   },
-  2: {
+  3: {
     name: 'Transformers',
     contentId: 'transformers',
     overlayColor: 'rgba(0, 150, 255, 1)',  // Electric Blue
     image: 'images/transformers/thumb.png',
-    // panX: 0  // Manual pan override (0-100)
-  },
-  3: {
-    name: 'Aristotle',
-    contentId: 'aristotle',
-    overlayColor: 'rgba(255, 255, 0, 1)',  // Neon Yellow
-    image: 'images/aristotle/thumb.png'
     // panX: 0  // Manual pan override (0-100)
   },
 };
