@@ -31,51 +31,40 @@ const projectConfig = {
   0: {
     name: 'Roid',
     contentId: 'roid',
-    overlayColor: 'rgba(50, 128, 245, 1)',  // Red
+    overlayColor: 'rgba(0, 255, 255, 1)',  // Cyan
     image: 'images/roid/thumb.png',
     // panX: 100  // Manual pan override (0-100)
   },
   1: {
     name: 'Loadout',
     contentId: 'loadout', 
-    overlayColor: 'rgba(77, 137, 201, 1)',  // Green
+    overlayColor: 'rgba(255, 0, 255, 1)',  // Magenta
     image: 'images/loadout/thumb.jpg',
     panX: 70  // Manual pan override (0-100)
   },
   2: {
     name: 'Transformers',
     contentId: 'transformers',
-    overlayColor: 'rgba(70, 70, 202, 1)',  // Blue
+    overlayColor: 'rgba(0, 150, 255, 1)',  // Electric Blue
     image: 'images/transformers/thumb.png',
     // panX: 0  // Manual pan override (0-100)
   },
   3: {
     name: 'Aristotle',
     contentId: 'aristotle',
-    overlayColor: 'rgba(105, 189, 249, 1)',  // Yellow
+    overlayColor: 'rgba(255, 255, 0, 1)',  // Neon Yellow
     image: 'images/aristotle/thumb.png'
     // panX: 0  // Manual pan override (0-100)
   },
-  4: {
-    name: 'Project Epsilon',
-    contentId: 'project-epsilon',
-    overlayColor: 'rgba(57, 35, 184, 1)',  // Magenta
-    image: 'images/project-epsilon/thumb.png'
-    // panX: 0  // Manual pan override (0-100)
-  },
-  5: {
-    name: 'Project Zeta',
-    contentId: 'project-zeta',
-    overlayColor: 'rgba(78, 120, 219, 1)',  // Cyan
-    image: 'images/project-zeta/thumb.png'
-    // panX: 0  // Manual pan override (0-100)
-  }
 };
 
 const defaultProject = {
-  overlayColor: 'rgba(206, 166, 166, 1)',  // Gray
+  overlayColor: 'rgba(100, 100, 100, 1)',  // Dark Gray
   image: 'images/default/thumb.png'
 };
+
+// localStorage key for saving current project
+const STORAGE_KEY = 'portfolio_current_project';
 
 let entries = document.querySelectorAll('.entry');
 const entryGrid = document.querySelector('.entry-grid');
@@ -146,6 +135,9 @@ function handleEntryClick(index) {
     config: config
   });
   
+  // Save current project to localStorage
+  saveCurrentProject(contentId);
+  
   showContentPanel(contentId);
 }
 
@@ -171,3 +163,48 @@ function hideAllContentPanels() {
     panel.classList.remove('active');
   });
 }
+
+// =============================================================================
+// LOCALSTORAGE FUNCTIONS
+// =============================================================================
+
+function saveCurrentProject(contentId) {
+  try {
+    localStorage.setItem(STORAGE_KEY, contentId);
+    console.log('Saved project to localStorage:', contentId);
+  } catch (error) {
+    console.warn('Failed to save project to localStorage:', error);
+  }
+}
+
+function loadSavedProject() {
+  try {
+    const savedProjectId = localStorage.getItem(STORAGE_KEY);
+    if (savedProjectId) {
+      console.log('Loading saved project:', savedProjectId);
+      showContentPanel(savedProjectId);
+      return true;
+    }
+  } catch (error) {
+    console.warn('Failed to load project from localStorage:', error);
+  }
+  return false;
+}
+
+function clearSavedProject() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    console.log('Cleared saved project from localStorage');
+  } catch (error) {
+    console.warn('Failed to clear saved project from localStorage:', error);
+  }
+}
+
+// =============================================================================
+// INITIALIZATION
+// =============================================================================
+
+// Load saved project on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadSavedProject();
+});
