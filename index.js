@@ -56,6 +56,13 @@ const projectConfig = {
     image: 'images/transformers/thumb.png',
     // panX: 0  // Manual pan override (0-100)
   },
+  4: {
+    name: 'Section8Prejudice',
+    contentId: 'section8prejudice',
+    overlayColor: 'rgba(0, 150, 255, 1)',  // Electric Blue
+    image: 'images/s8prejudice/thumb.jpg',
+    panX: 50  // Manual pan override (0-100)
+  },
 };
 
 const defaultProject = {
